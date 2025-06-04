@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${product.productId} == null ? 'Add Product' : 'Edit Product'">Product Form</title>
+    <style>
+        form {
+            width: 300px; margin: auto;
+        }
+        label {
+            display: block; margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%; padding: 5px;
+        }
+        .error {
+            color: red; font-size: 0.9em;
+        }
+        button {
+            margin-top: 15px; padding: 8px 12px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;" th:text="${product.productId} == null ? 'Add Product' : 'Edit Product'"></h2>
+
+    <form th:action="@{${product.productId} == null ? '/products' : '/products/' + ${product.productId}}" 
+          th:object="${product}" method="post">
+
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" />
+        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <label>Description:</label>
+        <textarea th:field="*{description}" rows="3"></textarea>
+
+        <label>Category:</label>
+        <input type="text" th:field="*{category}" />
+        <div class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+
+        <label>Price:</label>
+        <input type="number" step="0.01" th:field="*{price}" />
+        <div class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+
+        <label>Stock Quantity:</label>
+        <input type="number" th:field="*{stockQuantity}" />
+        <div class="error" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}"></div>
+
+        <button type="submit" th:text="${product.productId} == null ? 'Add' : 'Update'"></button>
+    </form>
+
+    <div style="text-align:center; margin-top: 20px;">
+        <a href="/products">Back to list</a>
+    </div>
+</body>
+</html>
